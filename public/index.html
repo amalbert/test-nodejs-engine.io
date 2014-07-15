@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <title>Test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+</head>
+<body>
+
+<div class="container" ng-controller="UsersController">
+    <div class="row">
+        <div class="span4">
+            <div class="well">
+                <h2>List of users</h2>
+				<form class="form-search">
+                    <div class="input-append">
+                        Latitude : <input type="text" class="input-medium search-query" ng-model="search.lat">
+						Longitude : <input type="text" class="input-medium search-query" ng-model="search.lng">
+						Rayon (m) : <input type="text" class="input-medium search-query" ng-model="search.rayon">
+                        <button type="submit" class="btn" data-ng-click="findUsersByLoc(search.lng, search.lat, search.rayon)"><i class="icon-search"></i> Search</button>
+						<button type="submit" class="btn" data-ng-click="findUsers()"><i class="icon-search"></i> Search all</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+		<table class="table">
+			<tr>
+				<th>Email</th>
+				<th>Latitude</th>
+				<th>Longitude</th>
+				<th>Distance (km)</th>
+				<th></th>
+			</tr>
+			<tr ng-repeat="user in users">
+				<td>{{user.email}}</td>
+				<td>{{user.coords[1]}}</td>
+				<td>{{user.coords[0]}}</td>
+				<td>{{user.dist / 1000 | number:1}}</td>
+				<td><button ng-click="deleteUser($index)">Delete</button></td>
+			</tr>
+		</table>
+
+    </div>
+	<div class="row">
+        <div class="span4">
+            <div class="well">
+                <h2>Add a user</h2>
+            </div>
+        </div>
+
+		<form name="userForm">
+			Email : <input type="text" ng-model="newUser.email" required />
+			Latitude : <input type="text" class="input-medium search-query" ng-model="newUser.coords[1]">
+			Longitude : <input type="text" class="input-medium search-query" ng-model="newUser.coords[0]">
+			<input type="submit" value="Save" ng-click="insertUser(newUser)"/>
+		</form>
+
+    </div>
+</div>
+</body>
+<script src="/js/jquery-1.7.2.min.js"></script>
+<script src="/js/jquery.activity-indicator-1.0.0.js"></script>
+<script src="/js/engine.io.js"></script>
+<script src="/js/main.js"></script>
+</html>
